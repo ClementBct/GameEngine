@@ -1,9 +1,10 @@
 #pragma once
+#include "Engine/System/System.h"
 #include <vector>
 #include <functional>
 #include "SDL3/SDL_keycode.h"
 
-class InputSystem
+class InputSystem : public System
 {
 public :
 	InputSystem();

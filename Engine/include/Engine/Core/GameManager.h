@@ -5,15 +5,10 @@
 
 #include "Engine/Utils/Math.h"
 
-#define WORLD_UNIT_TO_PIXEL_UNIT 1.0f
-#define PIXEL_UNIT_TO_WORLD_UNIT 1.0f
-//1 mètre = 100 world units 
-
 class GameManager
 {
 public:
     GameManager();
-    bool initialize();
     void run();
     void shutdown();
 
@@ -22,7 +17,7 @@ public:
 
 
     void addScene(class Scene* i_scene);
-    class RessourceLoader* ressource_loader = nullptr;
+    class RessourceLoader* m_ressource_loader = nullptr;
     class InputSystem* m_input_system = nullptr;
     class AudioSystem* m_audio_system = nullptr;
     void setCurrentScene(class Scene& i_scene);
@@ -47,5 +42,5 @@ private:
     class Scene* m_current_scene = nullptr;
 };
 
-// Inclusion du .inl à la fin du header
+// Inclusion du .inl ï¿½ la fin du header
 #include "GameManager.inl"

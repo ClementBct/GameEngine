@@ -2,7 +2,7 @@
 
 #include "Engine/ECS/GameObject.h"
 
-#include "Engine/System/AudioSystem.h"
+#include "Engine/System/Audio/AudioSystem.h"
 #include "Engine/System/PhysicsSystem.h"
 #include "Engine/System/RenderSystem.h"
 #include "Engine/System/InputSystem.h"
@@ -10,7 +10,7 @@
 #include "Engine/Core/RessourceLoader.h"
 #include "Engine/Core/Camera.h"
 #include "Engine/Core/Window.h"
-#include "Engine/Core/Renderer.h"
+#include "Engine/Core/Renderer/Renderer.h"
 #include "Engine/Core/Scene.h"
 
 #include <SDL3/SDL_timer.h> //Get_Ticks()
@@ -31,15 +31,7 @@ GameManager::GameManager(): m_is_running(true) {
 
     m_physics_system = new PhysicsSystem();
     m_render_system = new RenderSystem(*m_renderer, *m_camera);
-    ressource_loader = new RessourceLoader(*m_renderer);
-
-    initialize();
-}
-
-// --- Public Methods ---
-bool GameManager::initialize() {
-    m_ticks_count = 0;
-    return true;
+    m_ressource_loader = new RessourceLoader(*m_renderer);
 }
 
 void GameManager::run() {
@@ -73,7 +65,7 @@ void GameManager::shutdown() {
     delete m_window;
     delete m_renderer;
     delete m_camera;
-    delete ressource_loader;
+    delete m_ressource_loader;
 }
 
 void GameManager::processInput() {
@@ -112,7 +104,7 @@ void GameManager::loadScene(Scene& i_scene) {
     for (auto game_object : i_scene.getGameObjectList()) {
         m_physics_system->createPhysicsBody(game_object);
         m_audio_system->loadSound(game_object);
-        m_render_system->loadTexture(game_object);
+
     }
     for (auto game_object : i_scene.getGameObjectList()) {
         game_object->onStart();

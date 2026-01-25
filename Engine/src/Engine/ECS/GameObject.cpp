@@ -10,14 +10,14 @@ GameObject::~GameObject() {
 	m_scene.removeGameObject(this);
 }
 
-const GameManager* GameObject::getGameMgr() {
-	return m_scene.getGameManager();
-}
-
 int GameObject::getZOrder()
 {
 	return m_z_order;
 }
+const Scene& GameObject::getScene() const{
+	return m_scene;
+}
+
 
 void GameObject::onKeyPressed(uint32_t i_key)
 {

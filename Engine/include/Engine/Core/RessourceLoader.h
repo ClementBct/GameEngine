@@ -1,18 +1,17 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-
-struct SDL_Texture;
+#include <memory>
 
 class RessourceLoader
 {
 public :
 	RessourceLoader(class Renderer& i_renderer);
 	~RessourceLoader();
-	SDL_Texture* loadTexture(const std::string& i_file_path);
+	class Texture* loadTexture(const std::string& i_file_path);
 
 private :
 	class Renderer& m_renderer;
-	std::unordered_map<std::string, SDL_Texture*> m_textures_list;
+	std::unordered_map<std::string, class Texture*> m_textures_list;
 };
 

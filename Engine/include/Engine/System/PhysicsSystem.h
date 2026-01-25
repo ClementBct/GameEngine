@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine/System/System.h"
 #include "Engine/Utils/Math.h"
 
 #include "box2d/box2d.h"
@@ -16,7 +17,7 @@ float convertPhysicsUnitToWorldUnit(float i_physics_unit);
 float convertWorldRotationToPhysicsRotation(float i_deg); 
 float convertPhysicsRotationToWorldRotation(float i_rad);
 
-class PhysicsSystem
+class PhysicsSystem : public System
 {
 public:
 	PhysicsSystem();

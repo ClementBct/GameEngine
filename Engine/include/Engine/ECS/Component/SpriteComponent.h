@@ -1,23 +1,24 @@
 #pragma once
 #include "Component.h"
 
-struct SDL_Texture;
+//tempo
+#define WORLD_UNIT_TO_PIXEL_UNIT 1.0f
+#define PIXEL_UNIT_TO_WORLD_UNIT 1.0f
 
 class SpriteComponent : public Component
 {
 public:
 	SpriteComponent(class GameObject& i_owner);
-	void setTexture(SDL_Texture* i_texture);
-	SDL_Texture* getTexture() const;
+	void setTexturePath(const std::string& i_path);
 	int getZOrder();
 	Vector2D getWorldSize();
+	size_t getTextureId();
+	class Texture* getTexture();
+	void setTexture(class Texture* i_texture);
 protected:
 private:
-	float m_texture_h = -1.0f;
-	float m_texture_w = -1.0f;
+	class Texture* m_texture = nullptr;
 	Vector2D m_world_size;
 	int m_local_z_order = 0;
-	std::string m_texture_path = "";
-	SDL_Texture* m_texture = nullptr;
 };
 

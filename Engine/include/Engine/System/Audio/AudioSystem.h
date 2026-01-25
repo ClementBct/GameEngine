@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Engine/System/System.h"
 #include "Engine/Utils/Math.h"
-
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -31,15 +31,15 @@ struct SubChunkHeaderType
 
 struct FmtType
 {
-    unsigned short audioFormat;
-    unsigned short numChannels;
-    unsigned int sampleRate;
-    unsigned int bytesPerSecond;
-    unsigned short blockAlign;
-    unsigned short bitsPerSample;
+    unsigned short audio_format;
+    unsigned short num_channels;
+    unsigned int sample_rate;
+    unsigned int bytes_per_second;
+    unsigned short block_align;
+    unsigned short bits_per_sample;
 };
 
-class AudioSystem
+class AudioSystem : public System
 {
 public :
 	AudioSystem();
@@ -51,6 +51,9 @@ public :
 	void stopSound(SoundHandler_t& i_sound_handler);
 	void loadSound(class GameObject* i_game_object);
 private :
+	/**
+	 * @brief The maximum number of sources that can be played at the same time
+	 */
 	const int m_max_sources = 32;
 	ALCdevice* m_device = nullptr;
 	ALCcontext* m_context = nullptr;

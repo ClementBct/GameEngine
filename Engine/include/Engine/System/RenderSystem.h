@@ -1,12 +1,12 @@
 #pragma once
+#include "Engine/System/System.h"
 #include <vector>
 
-class RenderSystem
+class RenderSystem : public System
 {
 public:
 	RenderSystem(class Renderer& i_renderer, class Camera& i_camera);
 	~RenderSystem();
-	void loadTexture(class GameObject* i_game_object);
 	void renderScene(class Scene* i_scene);
 private :
 

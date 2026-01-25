@@ -4,10 +4,13 @@
 #include "Engine/Core/GameManager.h"
 #include "Engine/Core/RessourceLoader.h"
 
+#include "Engine/Core/Renderer/Texture.h"
+#include "Engine/Core/Scene.h"
+
 Fruit::Fruit(Scene& i_scene) : GameObject(i_scene)
 {
 	m_main_sprite = new SpriteComponent(*this);
-	m_main_sprite->setTexture(getGameMgr()->ressource_loader->loadTexture("Ressources/fruit.png"));
+	m_main_sprite->setTexture(getScene().getGameManager().m_ressource_loader->loadTexture("fruit.png"));
 }
 
 void Fruit::onStart() {

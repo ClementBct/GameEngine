@@ -26,8 +26,8 @@ std::vector<GameObject*>& Scene::getGameObjectList() {
 	return m_game_object_list;
 }
 
-const GameManager* Scene::getGameManager() {
-	return &m_game_mgr;
+const GameManager& Scene::getGameManager() const{
+	return m_game_mgr;
 }
 
 void Scene::onLoad() {

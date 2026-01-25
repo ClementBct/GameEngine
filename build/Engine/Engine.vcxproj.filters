@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\Renderer\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\RessourceLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Core\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\BoxCollider2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\CircleCollider2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\Collider2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\RigidBody2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\Sound2DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\Sound3DComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\SoundComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\SpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Component\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\ECS\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\System\Audio\AudioSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\System\InputSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\System\PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\System\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\System\System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\src\Engine\Utils\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\clebo\Documents\Dev\GameEngine\Engine\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{63171B35-4264-389C-B184-F04BC1179A7A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

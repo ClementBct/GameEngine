@@ -7,15 +7,17 @@
 
 #include "Engine/Core/GameManager.h"
 #include "Engine/Core/RessourceLoader.h"
+#include "Engine/Core/Renderer/Texture.h"
+#include "Engine/Core/Scene.h"
 #include "Engine/System/PhysicsSystem.h"
 #include <print>
 #include "GameObject/Cube.h"
 
 Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 {
-	m_robot_sprite = new SpriteComponent(*this);
-	m_robot_sprite->setTexture(getGameMgr()->ressource_loader->loadTexture("Ressources/robot.png"));
     setTag("Robot");
+	m_robot_sprite = new SpriteComponent(*this);
+    m_robot_sprite->setTexture(getScene().getGameManager().m_ressource_loader->loadTexture("robot.png"));
 	transform->scale = { 0.2f,0.2f };
 	m_rb = new RigidBody2DComponent(*this, EBodyType::DynamicBody);
     m_rb->setGravityScale(0.0f);
@@ -54,7 +56,7 @@ void Robot::setRobotSpeed(float i_speed) {
 
 void Robot::onKeyPressed(uint32_t i_key)
 {
-    m_audio->play();
+    //m_audio->play();
     Vector2D impulse;
     impulse.x = 0;
     impulse.y = 10.0;

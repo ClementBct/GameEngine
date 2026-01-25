@@ -9,8 +9,7 @@ public :
 	GameObject(class Scene& i_scene);
 	~GameObject();
 	TransformComponent* transform;
-	const class GameManager* getGameMgr();
-	class Scene* getScene();
+	const class Scene& getScene()const;
 	int getZOrder();
 	/*KeyBoard Event*/
 	bool m_is_keyboardEventEnable = true;

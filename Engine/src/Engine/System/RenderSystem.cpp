@@ -1,18 +1,19 @@
 #include "Engine/System/RenderSystem.h"
-#include "Engine/Core/Renderer.h"
+#include "Engine/Core/Renderer/Renderer.h"
+#include "Engine/Core/Renderer/Texture.h"
 #include "Engine/Core/Camera.h"
 #include "Engine/Core/Scene.h"
 
-#include "SDL3/SDL.h"
-
 #include "Engine/System/PhysicsSystem.h"
-
+#include "SDL3/SDL.h"
 
 /*GameObject*/
 #include "Engine/ECS/GameObject.h"
 /*Component*/
 #include "Engine/ECS/Component/SpriteComponent.h"
 #include "Engine/ECS/Component/Collider2DComponent.h"
+
+#include <iostream>
 
 RenderSystem::RenderSystem(Renderer& i_renderer, Camera& i_camera) : m_renderer(i_renderer), m_camera(i_camera)
 {
@@ -22,14 +23,9 @@ RenderSystem::~RenderSystem()
 {
 }
 
-void RenderSystem::loadTexture(GameObject* i_game_object) {
-    return;
-}
-
 void RenderSystem::renderScene(Scene* i_scene)
 {
 	m_renderer.beginFrame();
-
 	for (auto game_object : i_scene->getGameObjectList()) {
         for (auto sprite : game_object->getComponents<SpriteComponent>()) {
             drawSprite(sprite, m_camera.getCameraZoom());
@@ -45,19 +41,17 @@ void RenderSystem::renderScene(Scene* i_scene)
 
 void RenderSystem::drawSprite(SpriteComponent* i_sprite, float i_camera_zoom)
 {
-	SDL_FRect rect;
-
-	//rect.w = m_world_size.x * getWorldScale().x * camera_zoom;
-	//rect.h = m_world_size.y * getWorldScale().y * camera_zoom;
-	rect.w = i_sprite->getWorldSize().x * i_camera_zoom;
-	rect.h = i_sprite->getWorldSize().y * i_camera_zoom;
-
+    if (!i_sprite) {
+        std::cout << "Sprite is not valid" << std::endl;
+    }
+    float w = i_sprite->getWorldSize().x * i_camera_zoom;
+    float h = i_sprite->getWorldSize().y * i_camera_zoom;
 	Vector2D screen_center = m_camera.convertWorldPositionToScreenPosition(i_sprite->getWorldPosition());
 
-	rect.x = screen_center.x - (rect.w * 0.5f);
-	rect.y = screen_center.y - (rect.h * 0.5f);
+	float x = screen_center.x - (w * 0.5f);
+	float y = screen_center.y - (h * 0.5f);
 
-	m_renderer.drawTexture(i_sprite->getTexture(), &rect, i_sprite->getWorldRotation());
+	m_renderer.drawTexture(i_sprite->getTexture(),x,y, w, h, i_sprite->getWorldRotation());
 }
 
 void RenderSystem::drawCollider(Collider2DComponent* i_collider)

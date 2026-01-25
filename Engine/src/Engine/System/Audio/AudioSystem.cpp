@@ -1,4 +1,4 @@
-#include "Engine/System/AudioSystem.h"
+#include "Engine/System/Audio/AudioSystem.h"
 
 #include <algorithm>
 #include <print>
@@ -12,7 +12,7 @@
 AudioSystem::AudioSystem()
 {
     m_device = alcOpenDevice(nullptr);
-    if (!m_device) {
+    if (!m_device) { 
         std::println("Enable to open OpenAL device");
         return;
     }
@@ -164,140 +164,19 @@ ALuint AudioSystem::getFreeSource()
     alSourceStop(m_sources_list[0]);
     return m_sources_list[0];
 }
-/*
-bool AudioSystem::loadWav(const char* i_path, ALuint& o_buffer)
+bool AudioSystem::loadWav(const char* i_file_name, ALuint& o_buffer)
 {
-    FILE* file = nullptr;
-    if (fopen_s(&file, i_path, "rb") != 0 || !file) {
-        std::println("Failed to open WAV: {0}",i_path);
+    FILE* filePtr = nullptr;
+    if (fopen_s(&filePtr, i_file_name, "rb") != 0 || !filePtr) {
+        std::println("Failed to open WAV: {0}", i_file_name);
         return false;
     }
 
-    // --- Lecture du header RIFF ---
-    char riff[4];
-    fread(riff, 1, 4, file);
-    if (std::strncmp(riff, "RIFF", 4) != 0) {
-        std::cerr << "Not a valid RIFF file: " << i_path << std::endl;
-        fclose(file);
-        return false;
-    }
-
-    fseek(file, 22, SEEK_SET);
-    uint16_t channels = 0;
-    fread(&channels, sizeof(uint16_t), 1, file);
-
-    uint32_t sampleRate = 0;
-    fread(&sampleRate, sizeof(uint32_t), 1, file);
-
-    fseek(file, 34, SEEK_SET);
-    uint16_t bitsPerSample = 0;
-    fread(&bitsPerSample, sizeof(uint16_t), 1, file);
-
-    // --- Lecture des données ---
-    fseek(file, 40, SEEK_SET);
-    uint32_t dataSize = 0;
-    fread(&dataSize, sizeof(uint32_t), 1, file);
-
-    std::vector<unsigned char> rawData(dataSize);
-    size_t read = fread(rawData.data(), 1, dataSize, file);
-    fclose(file);
-
-    if (read != dataSize) {
-        std::cerr << "Failed to read WAV data: " << i_path << std::endl;
-        return false;
-    }
-
-    // --- Déterminer le format OpenAL ---
-    ALenum format = 0;
-    if (channels == 1 && bitsPerSample == 8)       format = AL_FORMAT_MONO8;
-    else if (channels == 1 && bitsPerSample == 16) format = AL_FORMAT_MONO16;
-    else if (channels == 2 && bitsPerSample == 8)  format = AL_FORMAT_STEREO8;
-    else if (channels == 2 && bitsPerSample == 16) format = AL_FORMAT_STEREO16;
-    else {
-        std::cerr << "Unsupported WAV format: " << i_path << std::endl;
-        return false;
-    }
-
-    // --- Génération et remplissage du buffer OpenAL ---
-    alGenBuffers(1, &o_buffer);
-    ALenum err = alGetError();
-    if (err != AL_NO_ERROR) {
-        std::cerr << "Failed to generate OpenAL buffer: " << err << std::endl;
-        return false;
-    }
-
-    // Pour 16 bits, OpenAL attend des shorts, sinon unsigned char
-    if (bitsPerSample == 16) {
-        alBufferData(o_buffer, format, rawData.data(), static_cast<ALsizei>(dataSize), sampleRate);
-    }
-    else {
-        alBufferData(o_buffer, format, rawData.data(), static_cast<ALsizei>(dataSize), sampleRate);
-    }
-
-    err = alGetError();
-    if (err != AL_NO_ERROR) {
-        std::cerr << "Failed to fill OpenAL buffer: " << err << std::endl;
-        return false;
-    }
-
-    return true;
-}
-*/
-/*
-bool AudioSystem::loadWav(const char* path, ALuint& outBuffer)
-{
-    FILE* file = nullptr;
-    if (fopen_s(&file, path, "rb") != 0 || !file) return false;
-
-    char riff[4]; fread(riff, 1, 4, file);
-    if (std::strncmp(riff, "RIFF", 4) != 0) { fclose(file); return false; }
-
-    fseek(file, 22, SEEK_SET);
-    uint16_t channels = 0; fread(&channels, sizeof(uint16_t), 1, file);
-
-    uint32_t sampleRate = 0; fread(&sampleRate, sizeof(uint32_t), 1, file);
-
-    fseek(file, 34, SEEK_SET);
-    uint16_t bitsPerSample = 0; fread(&bitsPerSample, sizeof(uint16_t), 1, file);
-
-    fseek(file, 40, SEEK_SET);
-    uint32_t dataSize = 0; fread(&dataSize, sizeof(uint32_t), 1, file);
-
-    std::vector<char> data(dataSize);
-    size_t read = fread(data.data(), 1, dataSize, file);
-    fclose(file);
-    if (read != dataSize) return false;
-
-    ALenum format = 0;
-    if (channels == 1 && bitsPerSample == 8) format = AL_FORMAT_MONO8;
-    else if (channels == 1 && bitsPerSample == 16) format = AL_FORMAT_MONO16;
-    else if (channels == 2 && bitsPerSample == 8) format = AL_FORMAT_STEREO8;
-    else if (channels == 2 && bitsPerSample == 16) format = AL_FORMAT_STEREO16;
-    else return false;
-
-    alGenBuffers(1, &outBuffer);
-    if (alGetError() != AL_NO_ERROR) return false;
-
-    // Important: dataSize doit être exact en octets, pour 16 bits = taille en octets
-    alBufferData(outBuffer, format, data.data(), static_cast<ALsizei>(dataSize), sampleRate);
-    if (alGetError() != AL_NO_ERROR) return false;
-
-    return true;
-}
-*/
-bool AudioSystem::loadWav(const char* filename, ALuint& outBuffer)
-{
     RiffWaveHeaderType riffWaveFileHeader;
     SubChunkHeaderType subChunkHeader;
     FmtType fmtData;
     unsigned int count, seekSize;
     bool foundFormat, foundData;
-
-    FILE* filePtr = nullptr;
-    if (fopen_s(&filePtr, filename, "rb") != 0 || !filePtr) {
-        std::println("Failed to open WAV: {0}", filename);
-        return false;
-    }
     
     // Read in the riff wave file header.
     count = fread(&riffWaveFileHeader, sizeof(riffWaveFileHeader), 1, filePtr);
@@ -345,26 +224,18 @@ bool AudioSystem::loadWav(const char* filename, ALuint& outBuffer)
     }
 
     // Check that the audio format is WAVE_FORMAT_PCM (1).
-    if (fmtData.audioFormat != 1)
+    if (fmtData.audio_format != 1)
     {
         return false;
     }
 
     // Check that the wave file was recorded in stereo format.
-    if (fmtData.numChannels != 2)
+    if (fmtData.num_channels != 2)
     {
         return false;
     }
-
-    // Check that the wave file was recorded at a sample rate of 44.1 KHz.
-    /*
-    if (fmtData.sampleRate != 44100)
-    {
-        return false;
-    }
-    */
     // Ensure that the wave file was recorded in 16 bit format.
-    if (fmtData.bitsPerSample != 16)
+    if (fmtData.bits_per_sample != 16)
     {
         return false;
     }
@@ -408,8 +279,8 @@ bool AudioSystem::loadWav(const char* filename, ALuint& outBuffer)
 
     // Close the file once done reading.
     fclose(filePtr);
-    alGenBuffers(1, &outBuffer);
-    alBufferData(outBuffer, AL_FORMAT_STEREO16, m_waveData, m_waveSize, 48000);
+    alGenBuffers(1, &o_buffer);
+    alBufferData(o_buffer, AL_FORMAT_STEREO16, m_waveData, m_waveSize, 48000);
     ALenum err = alGetError();
     if (err != AL_NO_ERROR) {
         std::cerr << "Failed to fill OpenAL buffer: " << err << std::endl;
