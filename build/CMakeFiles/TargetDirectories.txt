@@ -1,4 +1,0 @@
-C:/Users/clebo/Documents/Dev/GameEngine/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/clebo/Documents/Dev/GameEngine/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/clebo/Documents/Dev/GameEngine/build/Engine/CMakeFiles/Engine.dir
-C:/Users/clebo/Documents/Dev/GameEngine/build/MyGame/CMakeFiles/MyGame.dir
