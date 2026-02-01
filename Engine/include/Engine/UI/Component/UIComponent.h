@@ -1,15 +1,13 @@
-#include "Engine/Utils/Math.h"
+#pragma once
 
-struct UITransform {
-	Vector2D position = { 0.0 ,0.0 };
-	Vector2D scale = { 1.0 ,1.0 };
-	Vector2D anchor = { 0.0 ,0.0 };
-	int z_index;
-};
+#include <vector>
 
-
-struct UIInteractable {
-	bool hovered  = false; 
-	bool pressed = false;
-	bool clicked = false;
+class UIComponent
+{
+public:
+	UIComponent(class UIWidget& i_parent);
+	virtual ~UIComponent();
+protected:
+	UIWidget& m_parent;
+private:
 };

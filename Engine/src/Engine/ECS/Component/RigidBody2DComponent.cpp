@@ -1,6 +1,6 @@
 #include "Engine/ECS/Component/RigidBody2DComponent.h"
 #include "Engine/ECS/GameObject.h"
-#include "Engine/System/PhysicsSystem.h"
+#include "Engine/System/Physics/PhysicsSystem.h"
 
 RigidBody2DComponent::RigidBody2DComponent(GameObject& i_owner, EBodyType i_body_type) : Component(i_owner), m_body_type(i_body_type)
 {

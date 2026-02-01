@@ -164,11 +164,11 @@ ALuint AudioSystem::getFreeSource()
     alSourceStop(m_sources_list[0]);
     return m_sources_list[0];
 }
-bool AudioSystem::loadWav(const char* i_file_name, ALuint& o_buffer)
+bool AudioSystem::loadWav(const std::string& i_path, ALuint& o_buffer)
 {
     FILE* filePtr = nullptr;
-    if (fopen_s(&filePtr, i_file_name, "rb") != 0 || !filePtr) {
-        std::println("Failed to open WAV: {0}", i_file_name);
+    if (fopen_s(&filePtr, i_path.c_str(), "rb") != 0 || !filePtr) {
+        std::println("Failed to open WAV: {0}", i_path);
         return false;
     }
 

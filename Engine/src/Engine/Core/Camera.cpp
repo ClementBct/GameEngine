@@ -14,10 +14,18 @@ void Camera::setCameraZoom(float i_zoom)
     m_camera_zoom = i_zoom;
 }
 
-Vector2D Camera::convertWorldPositionToScreenPosition(Vector2D i_world_position)
+Vector2D Camera::convertWorldPositionToScreenPosition(const Vector2D& i_world_position)
 {
     Vector2D screen_position;
     screen_position.x = (i_world_position.x - m_camera_position.x) * m_camera_zoom + (m_window.getWindowWidth() * 0.5f);
     screen_position.y = (m_window.getWindowHeight() * 0.5f) - (i_world_position.y - m_camera_position.y) * m_camera_zoom;
     return screen_position;
+}
+
+Vector2D Camera::convertScreenPositionToWorldPosition(const Vector2D& i_screen_position)
+{
+    Vector2D world_position;
+    world_position.x = (i_screen_position.x - (m_window.getWindowWidth() * 0.5f)) / m_camera_zoom + m_camera_position.x;
+    world_position.y = ((m_window.getWindowHeight() * 0.5f) - i_screen_position.y) / m_camera_zoom + m_camera_position.y;
+    return world_position;
 }

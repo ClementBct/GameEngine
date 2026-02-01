@@ -6,7 +6,7 @@
 constexpr float PI = std::numbers::pi_v<float>;
 
 
-typedef struct Vector2D {
+struct Vector2D {
     float x = 0;
     float y = 0;
 
@@ -68,7 +68,7 @@ typedef struct Vector2D {
     }
 };
 
-typedef struct Vector3D {
+struct Vector3D {
     float x = 0;
     float y = 0;
     float z = 0;

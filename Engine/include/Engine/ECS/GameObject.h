@@ -7,7 +7,7 @@ class GameObject : public Entity
 {
 public :
 	GameObject(class Scene& i_scene);
-	~GameObject();
+	virtual ~GameObject();
 	TransformComponent* transform;
 	const class Scene& getScene()const;
 	int getZOrder();

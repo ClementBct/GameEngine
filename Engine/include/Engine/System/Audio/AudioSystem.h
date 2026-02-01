@@ -12,7 +12,7 @@
 /**
  * @brief Sound handler
  */
-typedef struct SoundHandler_t {
+struct SoundHandler_t {
 	unsigned int id;
 };
 
@@ -63,7 +63,7 @@ private :
 	/*Correspond au générateur de son*/
 	std::vector<ALuint> m_sources_list;
 	ALuint getFreeSource();
-	bool loadWav(const char* i_path, ALuint& o_buffer);
+	bool loadWav(const std::string& i_path, ALuint& o_buffer);
 	//tempo
 	unsigned char* m_waveData;
 	unsigned int m_waveSize;

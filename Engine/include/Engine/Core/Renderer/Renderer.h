@@ -17,7 +17,6 @@ public:
 	SDL_Renderer* createRenderer(SDL_Window* i_window);
 
     void beginFrame();
-
     void endFrame();
 	void drawTexture(class Texture* i_texture,float i_x, float i_y, float i_width, float i_height, float i_rotation);
 	void drawLine(const SDL_FPoint* i_points,const int i_point_count);

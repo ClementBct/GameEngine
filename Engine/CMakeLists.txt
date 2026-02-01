@@ -15,7 +15,7 @@ file(GLOB_RECURSE ENGINE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 add_library(${GAME_ENGINE_NAME}
     ${ENGINE_SOURCES}
-)
+ "include/Engine/ECS/Actor.h")
 # Link libraries to project
 set(LIBS
     "${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/SDL3/lib/x64/SDL3.lib"

@@ -33,5 +33,6 @@ private :
 	class BoxCollider2DComponent* m_box_collider = nullptr;
 	class BoxCollider2DComponent* m_attraction_box = nullptr;
 	class Sound2DComponent* m_audio = nullptr;
+	class MainUserInterface* m_hud = nullptr;
 };
 

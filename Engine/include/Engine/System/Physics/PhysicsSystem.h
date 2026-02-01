@@ -22,8 +22,8 @@ class PhysicsSystem : public System
 public:
 	PhysicsSystem();
 	~PhysicsSystem();
-	void updatePhysicsSystem(double i_dt_s);
 	void createPhysicsBody(class GameObject* i_game_object);
+	void onUpdate(double i_dt_s) override;
 protected:
 private:
 	int m_sub_tick_count = 4;

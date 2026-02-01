@@ -9,15 +9,24 @@
 #include "Engine/Core/RessourceLoader.h"
 #include "Engine/Core/Renderer/Texture.h"
 #include "Engine/Core/Scene.h"
-#include "Engine/System/PhysicsSystem.h"
+//System
+#include "Engine/System/Physics/PhysicsSystem.h"
+#include "Engine/System/Input/InputSystem.h"
+#include "Engine/System/UI/UISystem.h"
+
 #include <print>
 #include "GameObject/Cube.h"
+#include "Engine/Core/Camera.h"
+
+//ui
+#include "UserInterface/mainUserInterface.h"
 
 Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 {
     setTag("Robot");
 	m_robot_sprite = new SpriteComponent(*this);
-    m_robot_sprite->setTexture(getScene().getGameManager().m_ressource_loader->loadTexture("robot.png"));
+    Texture* main_texture = getScene().getGameManager().m_ressource_loader->loadTexture("robot.png");
+    m_robot_sprite->setTexture(main_texture);
 	transform->scale = { 0.2f,0.2f };
 	m_rb = new RigidBody2DComponent(*this, EBodyType::DynamicBody);
     m_rb->setGravityScale(0.0f);
@@ -40,6 +49,9 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 
 
     m_audio = new Sound2DComponent(*this, "Ressources/pop.wav");
+
+    m_hud = new MainUserInterface(*this);
+    getScene().getGameManager().m_ui_system->setCurrentUserInterface(m_hud);
 }
 
 void Robot::onStart() {
@@ -48,6 +60,8 @@ void Robot::onUpdate(double i_dt_s) {
 	//Must call parent onUpdate
 	GameObject::onUpdate(i_dt_s);
 	updateMovement(i_dt_s);
+    //Vector2D mouse_world_pos = getScene().getGameManager().m_camera->convertScreenPositionToWorldPosition(getScene().getGameManager().m_input_system->getMouseScreenPosition());
+    //std::println("{} : {}", mouse_world_pos.x, mouse_world_pos.y);
 }
 
 void Robot::setRobotSpeed(float i_speed) {

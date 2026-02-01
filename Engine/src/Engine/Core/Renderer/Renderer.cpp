@@ -50,7 +50,6 @@ void Renderer::drawTexture(Texture* i_texture, float i_x, float i_y, float i_wid
     rect.y = i_y;
     rect.w = i_width;
     rect.h = i_height;
-    std::cout << "DrawTextureID: " << i_texture->id << "\n";
     SDL_RenderTextureRotated(m_renderer, m_textures_list[i_texture->id], nullptr, &rect, i_rotation, nullptr, SDL_FLIP_NONE);
 }
 

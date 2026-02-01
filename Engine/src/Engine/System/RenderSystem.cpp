@@ -4,7 +4,7 @@
 #include "Engine/Core/Camera.h"
 #include "Engine/Core/Scene.h"
 
-#include "Engine/System/PhysicsSystem.h"
+#include "Engine/System/Physics/PhysicsSystem.h"
 #include "SDL3/SDL.h"
 
 /*GameObject*/

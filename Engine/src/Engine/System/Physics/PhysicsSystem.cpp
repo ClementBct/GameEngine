@@ -1,4 +1,4 @@
-#include "Engine/System/PhysicsSystem.h"
+#include "Engine/System/Physics/PhysicsSystem.h"
 #include "Engine/ECS/GameObject.h"
 #include "Engine/ECS/Component/BoxCollider2DComponent.h"
 #include "Engine/ECS/Component/RigidBody2DComponent.h"
@@ -53,8 +53,8 @@ PhysicsSystem::~PhysicsSystem()
 	b2DestroyWorld(m_world_id);
 }
 
-void PhysicsSystem::updatePhysicsSystem(double i_dt_s)
-{
+
+void PhysicsSystem::onUpdate(double i_dt_s) {
 	b2World_Step(
 		m_world_id,
 		i_dt_s,

@@ -1,5 +1,5 @@
 #include "Engine/ECS/Component/BoxCollider2DComponent.h"
-#include "Engine/System/PhysicsSystem.h"
+#include "Engine/System/Physics/PhysicsSystem.h"
 
 BoxCollider2DComponent::BoxCollider2DComponent(GameObject& i_owner) : Collider2DComponent(i_owner)
 {
