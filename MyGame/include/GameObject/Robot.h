@@ -11,6 +11,7 @@ public:
 	Robot(class Scene& i_scene);
 	void onStart() override;
 	void onUpdate(double i_dt_s) override;
+	void onFixedUpdate(double i_fixed_dt_s)override;
 	float getRobotSpeed();
 	void setRobotSpeed(float i_speed);
 	void onKeyPressed(uint32_t i_key) override;

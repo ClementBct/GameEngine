@@ -8,6 +8,6 @@
 
 MainUserInterface::MainUserInterface(GameObject& i_owner) : UserInterface(i_owner, "") {
     UIImage* img = createWidget<UIImage>("main_img");
-    Texture* ui_img_texture = m_owner.getScene().getGameManager().m_ressource_loader->loadTexture("carrot.png");
+    Texture* ui_img_texture = m_owner.getScene().getGameManager().getRessourceLoader().createTexture("carrot.png");
     img->setTexture(ui_img_texture);
 }

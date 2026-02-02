@@ -10,5 +10,5 @@ Sound3DComponent::Sound3DComponent(GameObject& i_owner, const std::string& i_pat
 
 void Sound3DComponent::play()
 {
-	m_owner.getScene().getGameManager().m_audio_system->play3DSound(*this);
+	//m_owner.getScene().getGameManager().m_audio_system->play3DSound(*this);
 }

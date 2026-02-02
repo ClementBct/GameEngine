@@ -1,8 +1,13 @@
-#include "Engine/System/RenderSystem.h"
+#include "Engine/System/Render/RenderSystem.h"
 #include "Engine/Core/Renderer/Renderer.h"
 #include "Engine/Core/Renderer/Texture.h"
 #include "Engine/Core/Camera.h"
 #include "Engine/Core/Scene.h"
+//UI
+#include "Engine/UI/UserInterface.h"
+#include "Engine/UI/Widget/UIWidget.h"
+//UI Componenent
+#include "Engine/UI/Component/UITransform.h"
 
 #include "Engine/System/Physics/PhysicsSystem.h"
 #include "SDL3/SDL.h"
@@ -13,7 +18,10 @@
 #include "Engine/ECS/Component/SpriteComponent.h"
 #include "Engine/ECS/Component/Collider2DComponent.h"
 
-#include <iostream>
+
+//tempo
+#include <print>
+
 
 RenderSystem::RenderSystem(Renderer& i_renderer, Camera& i_camera) : m_renderer(i_renderer), m_camera(i_camera)
 {
@@ -23,9 +31,35 @@ RenderSystem::~RenderSystem()
 {
 }
 
+void RenderSystem::renderUserInterface(UserInterface* i_ui) {
+    //remplacer par une ref
+    if (!i_ui) {
+        return;
+    }
+    for (auto widget : i_ui->getWidgetList()) {
+        Texture* texture = widget->getTexture();
+        if (texture) {
+            m_renderer.drawTexture(texture, 0 , 0, 500, 500, 0);
+        }
+    }
+}
+
+void RenderSystem::renderFrame(Scene* scene, UserInterface* ui)
+{
+    m_renderer.beginFrame();
+
+    renderScene(scene);        // monde
+    renderUserInterface(ui);   // UI par-dessus
+
+    m_renderer.endFrame();
+}
+
 void RenderSystem::renderScene(Scene* i_scene)
 {
-	m_renderer.beginFrame();
+    if (!i_scene) {
+        return;
+    }
+    //remplacer par une ref
 	for (auto game_object : i_scene->getGameObjectList()) {
         for (auto sprite : game_object->getComponents<SpriteComponent>()) {
             drawSprite(sprite, m_camera.getCameraZoom());
@@ -36,13 +70,12 @@ void RenderSystem::renderScene(Scene* i_scene)
 			}
 		}
 	}
-	m_renderer.endFrame();
 }
 
 void RenderSystem::drawSprite(SpriteComponent* i_sprite, float i_camera_zoom)
 {
     if (!i_sprite) {
-        std::cout << "Sprite is not valid" << std::endl;
+        return;
     }
     float w = i_sprite->getWorldSize().x * i_camera_zoom;
     float h = i_sprite->getWorldSize().y * i_camera_zoom;

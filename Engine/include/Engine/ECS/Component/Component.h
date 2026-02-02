@@ -13,6 +13,7 @@ public :
 	virtual ~Component();
 	class GameObject* getOwner(void);
 	virtual void onUpdate(double i_dt_s);
+	virtual void onFixedUpdate(double i_fixed_dt_s);
 	/*Component ID*/
 	void setId(const size_t i_id);
 	const size_t getComponentId();

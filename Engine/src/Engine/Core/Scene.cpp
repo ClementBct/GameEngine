@@ -12,7 +12,6 @@ Scene::~Scene() {
 		delete game_object;
 	}
 	m_game_object_list.clear();
-	//remove scene from game manager
 }
 
 void onLoad() {
@@ -49,6 +48,10 @@ void Scene::onUpdate(double i_dt_s) {
 	for (auto game_object : m_game_object_list) {
 		game_object->onUpdate(i_dt_s);
 	}
+}
+
+void Scene::onFixedUpdate(double i_fixed_dt_s) {
+	(void)i_fixed_dt_s;
 }
 
 void Scene::setPlayerController(PlayerController* i_player_controler) {

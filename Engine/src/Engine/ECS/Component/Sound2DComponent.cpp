@@ -10,5 +10,5 @@ Sound2DComponent::Sound2DComponent(GameObject& i_owner, const std::string& i_pat
 
 void Sound2DComponent::play()
 {
-	m_owner.getScene().getGameManager().m_audio_system->play2DSound(*this);
+	//m_owner.getScene().getGameManager().m_audio_system->play2DSound(*this);
 }

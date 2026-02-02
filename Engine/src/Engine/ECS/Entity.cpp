@@ -21,6 +21,12 @@ void Entity::onUpdate(double i_dt_s) {
 	}
 }
 
+void Entity::onFixedUpdate(double i_fixed_dt_s) {
+	for (auto component : m_component_list) {
+		component->onUpdate(i_fixed_dt_s);
+	}
+}
+
 size_t Entity::addComponent(Component* i_component) {
 	if (!i_component) {
 		std::println("Can't add component: component is not valid");

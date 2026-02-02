@@ -12,7 +12,7 @@ Ground::Ground(class Scene& i_scene) : GameObject(i_scene)
 {
 	setTag("Ground");
 	m_main_sprite = new SpriteComponent(*this);
-	m_main_sprite->setTexture(getScene().getGameManager().m_ressource_loader->loadTexture("ground.png"));
+	m_main_sprite->setTexture(getScene().getGameManager().getRessourceLoader().createTexture("ground.png"));
 	m_rb = new RigidBody2DComponent(*this, EBodyType::StaticBody);
 	m_box_collider = new BoxCollider2DComponent(*this);
 	m_box_collider->setBoxColliderSize(500.0f, 20.0f);
@@ -26,4 +26,9 @@ void Ground::onStart()
 void Ground::onUpdate(double i_dt_s)
 {
 	GameObject::onUpdate(i_dt_s);
+}
+
+
+void Ground::onFixedUpdate(double i_fixed_dt_s) {
+	GameObject::onFixedUpdate(i_fixed_dt_s);
 }

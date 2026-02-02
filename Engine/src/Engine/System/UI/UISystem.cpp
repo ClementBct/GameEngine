@@ -20,3 +20,7 @@ void UISystem::onUpdate(double i_dt_s) {
 void UISystem::setCurrentUserInterface(UserInterface* i_user_interface) {
 	m_active_user_interface = i_user_interface;
 }
+
+UserInterface* UISystem::getCurrentUserInterface() {
+	return m_active_user_interface;
+}

@@ -3,7 +3,7 @@
 #include "SDL3/SDL.h"
 #include <print>
 
-Window::Window()
+Window::Window(const std::string& i_window_name) : m_window_name(i_window_name)
 {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());

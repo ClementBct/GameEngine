@@ -1,9 +1,14 @@
 ﻿#include "GameObject/Robot.h"
 
+//Component
 #include "Engine/ECS/Component/SpriteComponent.h"
 #include "Engine/ECS/Component/RigidBody2DComponent.h"
 #include "Engine/ECS/Component/BoxCollider2DComponent.h"
 #include "Engine/ECS/Component/Sound2DComponent.h"
+
+//Player Controller
+#include "Engine/ECS/PlayerController.h"
+
 
 #include "Engine/Core/GameManager.h"
 #include "Engine/Core/RessourceLoader.h"
@@ -25,7 +30,7 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 {
     setTag("Robot");
 	m_robot_sprite = new SpriteComponent(*this);
-    Texture* main_texture = getScene().getGameManager().m_ressource_loader->loadTexture("robot.png");
+    Texture* main_texture = getScene().getGameManager().getRessourceLoader().createTexture("robot.png");
     m_robot_sprite->setTexture(main_texture);
 	transform->scale = { 0.2f,0.2f };
 	m_rb = new RigidBody2DComponent(*this, EBodyType::DynamicBody);
@@ -47,14 +52,14 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
     m_attraction_box->m_is_collider_visible = true;
     m_attraction_box->m_overlap_event = true;
 
-
+    //fonction de création de composant interdiction de crée un new
     m_audio = new Sound2DComponent(*this, "Ressources/pop.wav");
-
-    m_hud = new MainUserInterface(*this);
-    getScene().getGameManager().m_ui_system->setCurrentUserInterface(m_hud);
+    //fonction de création de widget interdiction de crée un new
 }
 
 void Robot::onStart() {
+    m_hud = new MainUserInterface(*this);
+    getScene().getGameManager().getPlayerController()->showHUD(m_hud);
 }
 void Robot::onUpdate(double i_dt_s) {
 	//Must call parent onUpdate
@@ -62,6 +67,10 @@ void Robot::onUpdate(double i_dt_s) {
 	updateMovement(i_dt_s);
     //Vector2D mouse_world_pos = getScene().getGameManager().m_camera->convertScreenPositionToWorldPosition(getScene().getGameManager().m_input_system->getMouseScreenPosition());
     //std::println("{} : {}", mouse_world_pos.x, mouse_world_pos.y);
+}
+
+void Robot::onFixedUpdate(double i_fixed_dt_s) {
+    GameObject::onFixedUpdate(i_fixed_dt_s);
 }
 
 void Robot::setRobotSpeed(float i_speed) {

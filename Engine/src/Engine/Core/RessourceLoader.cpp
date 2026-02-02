@@ -12,8 +12,9 @@ RessourceLoader::~RessourceLoader()
 {
 }
 
-Texture* RessourceLoader::loadTexture(const std::string& i_file_path)
+Texture* RessourceLoader::createTexture(const std::string& i_file_path)
 {
+    //ça ne crée pas vraiment la texture car on verifie qu'elle n'est pas deja chargé avant
     std::string final_path = TEXTURE_PATH + i_file_path;
     // Check if texture is already loaded in memory
     auto iter = m_textures_list.find(final_path);

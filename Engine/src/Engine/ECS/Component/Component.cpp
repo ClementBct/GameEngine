@@ -15,6 +15,10 @@ GameObject* Component::getOwner() {
 
 void Component::onUpdate(double i_dt_s)
 {
+	(void)i_dt_s;
+}
+void Component::onFixedUpdate(double i_fixed_dt_s) {
+	(void)i_fixed_dt_s;
 }
 Vector2D Component::getLocalPosition()
 {

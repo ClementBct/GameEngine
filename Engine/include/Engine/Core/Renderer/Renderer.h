@@ -21,7 +21,7 @@ public:
 	void drawTexture(class Texture* i_texture,float i_x, float i_y, float i_width, float i_height, float i_rotation);
 	void drawLine(const SDL_FPoint* i_points,const int i_point_count);
     SDL_Renderer* getSDLRenderer() const;
-	bool loadTextureFromFile(Texture* i_texture, const std::string& i_path);
+	bool loadTextureFromFile(class Texture* i_texture, const std::string& i_path);
 protected:
 private:
 	std::unordered_map<size_t, SDL_Texture*> m_textures_list;

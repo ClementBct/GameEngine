@@ -14,9 +14,11 @@ public:
 	virtual void onStart() = 0;
 	/**
 	 * @brief Callback called each frame
-	 * @param i_delta_time_s the time since the last frame
+	 * @param i_dt_s the time since the last frame
 	 */
-	virtual void onUpdate(double i_delta_time_s) = 0;
+	virtual void onUpdate(double i_dt_s) = 0;
+	
+	virtual void onFixedUpdate(double i_fidex_dt_s) = 0;
 	/**
 	 * @brief Add a component to the game object
 	 * @param i_component the component to add

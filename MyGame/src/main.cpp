@@ -3,14 +3,16 @@
 #include "Engine/ECS/PlayerController.h"
 #include "Scene/MainScene.h"
 #include "Scene/MenuScene.h"
-
+#include "Engine/Core/GameMode.h"
 
 int main(int argc, char** argv) {
-    GameManager engine;
-    MainScene main_scene(engine);
-    MenuScene menu_scene(engine);
-    engine.createPlayerController("main_pc");
-    engine.setCurrentScene(main_scene);
-    engine.run();
+    GameManager game_mgr;
+    GameMode main_gm;
+    game_mgr.createPlayerController("main_pc");
+    //ajouter un gameMode, dans le gameMode, on a le default pawn, la scene, le playerController
+    MainScene main_scene(game_mgr);
+    MenuScene menu_scene(game_mgr);
+    game_mgr.setCurrentScene(main_scene);
+    game_mgr.run();
     return 0;
 }

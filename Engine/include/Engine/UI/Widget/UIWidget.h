@@ -9,7 +9,9 @@ public:
 	UIWidget(const std::string& i_name, UIWidget* i_parent = nullptr);
 	virtual ~UIWidget();
 	UIWidget* getParent();
+	virtual class Texture* getTexture();
 	const std::string& getName();
+	class UITransform* m_transform = nullptr;
 protected:
 	UIWidget* m_parent = nullptr;
 	//void addComponent(class UIComponent* i_comp);

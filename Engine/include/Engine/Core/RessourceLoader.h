@@ -8,7 +8,7 @@ class RessourceLoader
 public :
 	RessourceLoader(class Renderer& i_renderer);
 	~RessourceLoader();
-	class Texture* loadTexture(const std::string& i_file_path);
+	class Texture* createTexture(const std::string& i_file_path);
 
 private :
 	class Renderer& m_renderer;

@@ -8,7 +8,7 @@ public:
 	UIImage(const std::string& i_name, UIWidget* i_parent = nullptr);
 	~UIImage();
 	void setTexture(class Texture* i_texture);
-	class Texture* getTexture();
+	class Texture* getTexture() override;
 protected:
 private:
 	class Texture* m_img_texture = nullptr;

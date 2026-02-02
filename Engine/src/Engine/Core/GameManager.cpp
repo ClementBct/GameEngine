@@ -1,13 +1,15 @@
-#include "Engine/Core/GameManager.h"
+﻿#include "Engine/Core/GameManager.h"
 
 #include "Engine/ECS/GameObject.h"
 
 //System
 #include "Engine/System/Audio/AudioSystem.h"
 #include "Engine/System/Physics/PhysicsSystem.h"
-#include "Engine/System/RenderSystem.h"
+#include "Engine/System/Render/RenderSystem.h"
 #include "Engine/System/Input/InputSystem.h"
 #include "Engine/System/UI/UISystem.h"
+
+#include "Engine/UI/UserInterface.h"
 
 
 #include "Engine/Core/RessourceLoader.h"
@@ -23,71 +25,84 @@
 #include <algorithm>
 
 GameManager::GameManager(): m_is_running(true) {
-    m_window = new Window();
-    m_renderer = new Renderer();
+    m_window = std::make_unique<Window>("no name");
+    m_renderer = std::make_unique<Renderer>();
     m_renderer->createRenderer(m_window->getWindow());
-    m_camera = new Camera(*m_window);
+    m_camera = std::make_unique<Camera>(*m_window);
 
-    m_input_system = new InputSystem();
+    m_input_system = std::make_unique<InputSystem>();
     m_input_system->registerQuitCallback([this]() { m_is_running = false; });
 
-    m_audio_system = new AudioSystem();
+    m_audio_system = std::make_unique<AudioSystem>();
 
-    m_physics_system = new PhysicsSystem();
-    m_render_system = new RenderSystem(*m_renderer, *m_camera);
-    m_ressource_loader = new RessourceLoader(*m_renderer);
+    m_physics_system = std::make_unique<PhysicsSystem>();
+    m_render_system = std::make_unique<RenderSystem>(*m_renderer, *m_camera);
+    m_ui_system = std::make_unique<UISystem>();
 
-    m_ui_system = new UISystem();
+    m_ressource_loader = std::make_unique<RessourceLoader>(*m_renderer);
 }
 
-void GameManager::run() {
-    const float FIXED_TIMESTEP = 1.0f / 240.0f; // 240 FPS
+GameManager::~GameManager() {
+    shutdown();
+}
+void GameManager::run()
+{
+    constexpr float FIXED_TIMESTEP = 1.0f / 240.0f; // 240 Hz physique
     float accumulator = 0.0f;
 
     Uint32 lastTime = SDL_GetTicks();
-    while (m_is_running) {
+
+    while (m_is_running)
+    {
         Uint32 currentTime = SDL_GetTicks();
         float deltaTime = (currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
-        if (deltaTime > 0.25f) {
+
+        // Évite le spiral of death
+        if (deltaTime > 0.25f)
             deltaTime = 0.25f;
-        }
+
         accumulator += deltaTime;
-        //update clavier/souris
-        m_input_system->onUpdate(deltaTime);
-        // Mise � jour physique avec steps fixes
-        while (accumulator >= FIXED_TIMESTEP) {
-            updateGame(FIXED_TIMESTEP);
+
+        //UPDATE VARIABLE (chaque frame)
+
+        updateGame(deltaTime);          // caméra, animations, logique non physique
+
+        //FIXED UPDATE (physique / gameplay)
+        while (accumulator >= FIXED_TIMESTEP)
+        {
+            fixedUpdateGame(FIXED_TIMESTEP);
             accumulator -= FIXED_TIMESTEP;
         }
+
+        //RENDER (après updates)
         generateOutput();
-        m_ui_system->onUpdate(deltaTime);
     }
 }
 
 void GameManager::shutdown() {
-    //unloadScene();
-    delete m_physics_system;
-    delete m_render_system;
-    delete m_audio_system;
-    delete m_window;
-    delete m_renderer;
-    delete m_camera;
-    delete m_ressource_loader;
+    if (m_current_scene) {
+        unloadScene(*m_current_scene);
+    }
 }
 void GameManager::updateGame(float i_dt_s) {
-    //Update du moteur physique
-       m_physics_system->onUpdate(i_dt_s);
+    //Update des inputs
+    m_input_system->onUpdate(i_dt_s);
     //Update des gameObject et des component
     if (m_current_scene) {
         m_current_scene->onUpdate(i_dt_s);
     }
+    //Update des animation UI
+    m_ui_system->onUpdate(i_dt_s);
+}
+
+void GameManager::fixedUpdateGame(float i_fixed_dt_s) {
+  //Update du moteur physique
+  m_physics_system->onUpdate(i_fixed_dt_s);
 }
 
 void GameManager::generateOutput() {
-    if (m_current_scene) {
-        m_render_system->renderScene(m_current_scene);
-    }
+    m_render_system->renderFrame(m_current_scene, m_ui_system->getCurrentUserInterface());
 }
 
 void GameManager::setCurrentScene(Scene& i_scene) {
@@ -103,13 +118,27 @@ void GameManager::setCurrentPlayerController(PlayerController& i_pc) {
 }
 
 PlayerController* GameManager::createPlayerController(const std::string& i_pc_name) {
-    auto pc = std::make_shared<PlayerController>(*m_input_system, i_pc_name);
-    m_pc = pc.get();
+    //auto pc = std::make_shared<PlayerController>(*m_input_system, i_pc_name);
+    //m_pc = pc.get();
+    //fuite mémmoire ici car par supprimer !!!!!!
+    m_pc = new PlayerController(*m_input_system,*m_ui_system ,i_pc_name);
     return m_pc;
 }
 
+PlayerController* GameManager::getPlayerController() const{
+    return m_pc;
+}
+
+const Camera& GameManager::getCamera()const {
+    return *m_camera;
+}
+
+RessourceLoader& GameManager::getRessourceLoader()const {
+    return *m_ressource_loader;
+}
+
 void GameManager::loadScene(Scene& i_scene) {
-    //On viens cr�e les physics body pour chaque objet s'il poss�de un Rb ainsi que l'audio
+    //On viens crée les physics body pour chaque objet s'il possède un Rb ainsi que l'audio
     for (auto game_object : i_scene.getGameObjectList()) {
         m_physics_system->createPhysicsBody(game_object);
         m_audio_system->loadSound(game_object);

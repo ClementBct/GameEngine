@@ -2,40 +2,58 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 #include "Engine/Utils/Math.h"
+
+class Scene;
+class PlayerController;
+class Camera;
+class RessourceLoader;
+//System
+class UISystem;
+class PhysicsSystem;
+class RenderSystem;
+class InputSystem;
+class AudioSystem;
+
+class Renderer;
+class Window;
 
 class GameManager
 {
 public:
     GameManager();
+    ~GameManager();
     void run();
     void shutdown();
-
-    template<typename T>
-    T* spawnGameObject(Vector2D i_position = {0.0f,0.0f}, Vector2D i_scale = {1.0f,1.0f}, float i_rotation = 0.0f);
-    class RessourceLoader* m_ressource_loader = nullptr;
-    class InputSystem* m_input_system = nullptr;
-    class AudioSystem* m_audio_system = nullptr;
-    class Camera* m_camera = nullptr;
-    class UISystem* m_ui_system = nullptr;
-    void setCurrentScene(class Scene& i_scene);
-    void setCurrentPlayerController(class PlayerController& i_pc);
-    class PlayerController* createPlayerController(const std::string& i_pc_name);
+    void setCurrentScene(Scene& i_scene);
+    void setCurrentPlayerController(PlayerController& i_pc);
+    PlayerController* createPlayerController(const std::string& i_pc_name);
+    PlayerController* getPlayerController()const;
+    const Camera& getCamera()const;
+    RessourceLoader& getRessourceLoader()const;
 private:
     void updateGame(float i_dt_s);
+    void fixedUpdateGame(float i_fixed_dt_s);
     void generateOutput();
-    void loadScene(class Scene& i_scene);
-    void unloadScene(class Scene& i_scene);
+    void loadScene(Scene& i_scene);
+    void unloadScene(Scene& i_scene);
 
-    class PhysicsSystem* m_physics_system = nullptr;
-    class RenderSystem* m_render_system = nullptr;
-    class Renderer* m_renderer = nullptr;
-    class Window* m_window = nullptr;
+    std::unique_ptr<Renderer> m_renderer;
+    std::unique_ptr<Window> m_window;
+    std::unique_ptr<Camera> m_camera;
+    std::unique_ptr<RessourceLoader> m_ressource_loader;
+    //System
+    std::unique_ptr<InputSystem> m_input_system;
+    std::unique_ptr<AudioSystem> m_audio_system;
+    std::unique_ptr<UISystem> m_ui_system;
+    std::unique_ptr<PhysicsSystem> m_physics_system;
+    std::unique_ptr<RenderSystem> m_render_system;
 
     uint32_t m_ticks_count = 0;
     double m_accumulator = 0.0;
     bool m_is_running = true;
-    class Scene* m_current_scene = nullptr;
-    class PlayerController* m_pc = nullptr;
+    Scene* m_current_scene = nullptr;
+    PlayerController* m_pc = nullptr;
 };
