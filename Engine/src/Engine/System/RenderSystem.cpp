@@ -32,7 +32,6 @@ RenderSystem::~RenderSystem()
 }
 
 void RenderSystem::renderUserInterface(UserInterface* i_ui) {
-    //remplacer par une ref
     if (!i_ui) {
         return;
     }
@@ -44,13 +43,14 @@ void RenderSystem::renderUserInterface(UserInterface* i_ui) {
     }
 }
 
-void RenderSystem::renderFrame(Scene* scene, UserInterface* ui)
+void RenderSystem::renderFrame(Scene* scene, std::vector<UserInterface*>& i_ui_list)
 {
     m_renderer.beginFrame();
 
     renderScene(scene);        // monde
-    renderUserInterface(ui);   // UI par-dessus
-
+    for (auto ui : i_ui_list) {
+        renderUserInterface(ui);   // UI par-dessus
+    }
     m_renderer.endFrame();
 }
 

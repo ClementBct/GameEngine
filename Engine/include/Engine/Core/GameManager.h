@@ -16,6 +16,7 @@ class PhysicsSystem;
 class RenderSystem;
 class InputSystem;
 class AudioSystem;
+class SceneSystem;
 
 class Renderer;
 class Window;
@@ -30,9 +31,11 @@ public:
     void setCurrentScene(Scene& i_scene);
     void setCurrentPlayerController(PlayerController& i_pc);
     PlayerController* createPlayerController(const std::string& i_pc_name);
-    PlayerController* getPlayerController()const;
+    PlayerController& getPlayerController()const;
     const Camera& getCamera()const;
     RessourceLoader& getRessourceLoader()const;
+    UISystem& getUISystem()const;
+
 private:
     void updateGame(float i_dt_s);
     void fixedUpdateGame(float i_fixed_dt_s);
@@ -50,6 +53,7 @@ private:
     std::unique_ptr<UISystem> m_ui_system;
     std::unique_ptr<PhysicsSystem> m_physics_system;
     std::unique_ptr<RenderSystem> m_render_system;
+    std::unique_ptr<SceneSystem> m_scene_system;
 
     uint32_t m_ticks_count = 0;
     double m_accumulator = 0.0;

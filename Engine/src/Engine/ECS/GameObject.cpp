@@ -6,7 +6,6 @@ GameObject::GameObject(Scene& i_scene) : Entity() , m_scene(i_scene){
 	transform = new TransformComponent(*this);
 }
 GameObject::~GameObject() {
-	m_scene.destroyGameObject(this);
 }
 
 int GameObject::getZOrder()

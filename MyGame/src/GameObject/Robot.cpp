@@ -54,12 +54,11 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 
     //fonction de création de composant interdiction de crée un new
     m_audio = new Sound2DComponent(*this, "Ressources/pop.wav");
-    //fonction de création de widget interdiction de crée un new
 }
 
 void Robot::onStart() {
-    m_hud = new MainUserInterface(*this);
-    getScene().getGameManager().getPlayerController()->showHUD(m_hud);
+    MainUserInterface& ui = getScene().getGameManager().getUISystem().createUserInterface<MainUserInterface>(getScene().getGameManager().getPlayerController(), getScene().getGameManager().getRessourceLoader());
+    getScene().getGameManager().getPlayerController().showUI(ui);
 }
 void Robot::onUpdate(double i_dt_s) {
 	//Must call parent onUpdate

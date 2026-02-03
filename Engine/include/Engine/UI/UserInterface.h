@@ -4,10 +4,13 @@
 #include <string>
 #include <memory>
 
+class PlayerController;
+class RessourceLoader;
+
 class UserInterface
 {
 public:
-	UserInterface(class GameObject& i_owner,const std::string& i_name);
+	UserInterface(PlayerController& i_pc, RessourceLoader& i_ressource_loader);
 	virtual ~UserInterface();
 	virtual void onUpdate(double i_dt_s);
 	void addWidget(class UIWidget* i_widget);
@@ -23,10 +26,11 @@ public:
 		m_widget_list.push_back(widget);
 		return widget;
 	}
+	const std::string getName();
 
 protected:
-	class GameObject& m_owner;
+	PlayerController& m_pc;
+	RessourceLoader& m_ressource_loader;
 private:
 	std::vector<UIWidget*> m_widget_list;
-	std::string m_name;
 };

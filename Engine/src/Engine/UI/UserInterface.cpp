@@ -1,12 +1,22 @@
 #include "Engine/UI/UserInterface.h"
-#include "Engine/ECS/GameObject.h"
+#include "Engine/ECS/PlayerController.h"
+#include "Engine/Core/RessourceLoader.h"
 #include "Engine/UI/Widget/UIWidget.h"
 
+#include "Engine/Utils/Demangler.h"
+
+#include <typeinfo>
+#include <string>
 //tempo
 #include <print>
 
-UserInterface::UserInterface(GameObject& i_owner, const std::string& i_name) : m_owner(i_owner), m_name(i_name){
+UserInterface::UserInterface(PlayerController& i_pc, RessourceLoader& i_ressource_loader) : m_pc(i_pc), m_ressource_loader(i_ressource_loader){
 
+}
+
+const std::string UserInterface::getName() {
+	std::string name = typeid(*this).name();
+	return demangle(name);
 }
 
 UserInterface::~UserInterface() {

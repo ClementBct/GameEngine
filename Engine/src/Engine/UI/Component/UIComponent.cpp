@@ -9,3 +9,6 @@ UIComponent::~UIComponent() {
 
 }
 
+UIWidget& UIComponent::getParent() {
+	return m_parent;
+}

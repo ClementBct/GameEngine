@@ -1,10 +1,13 @@
 #pragma once
 #include <vector>
 
+class GameManager;
+class PlayerController;
+
 class Scene
 {
 public:
-	Scene(class GameManager& i_game_mgr);
+	Scene(GameManager& i_game_mgr);
 	virtual ~Scene();
 	virtual void onLoad();
 	virtual void onUnLoad();
@@ -12,8 +15,8 @@ public:
 	virtual void onFixedUpdate(double i_fixed_dt_s);
 	bool destroyGameObject(class GameObject* i_game_object);
 	const std::vector<class GameObject*>& getGameObjectList()const;
-	const class GameManager& getGameManager()const;
-	void setPlayerController(class PlayerController* i_player_controler);
+	const GameManager& getGameManager()const;
+	void setPlayerController(PlayerController* i_pc);
 	template<typename T, typename... Args>
 	T* spawnGameObject(Args&&... i_args) {
 		static_assert(std::is_base_of_v<GameObject, T>,
@@ -23,7 +26,7 @@ public:
 		return game_object;
 	}
 private:
-	class GameManager& m_game_mgr;
+	GameManager& m_game_mgr;
 	std::vector<class GameObject*> m_game_object_list;
-	class PlayerController* m_player_controller = nullptr;
+	PlayerController* m_player_controller = nullptr;
 };

@@ -2,18 +2,22 @@
 
 #include <string>
 
+class InputSystem;
+class UISystem;
+class UserInterface;
+class Actor;
+
 class PlayerController {
 public:
-    PlayerController(class InputSystem& i_input_system,class UISystem& i_ui_system, const std::string& i_name);
+    PlayerController(InputSystem& i_input_system,UISystem& i_ui_system);
     //void handleInput(const InputEvent& event);
-    void possess(class Actor& i_game_object);
-    void showHUD(class UserInterface* hud);
+    void possess(Actor& i_game_object);
+    void showUI(UserInterface& i_ui);
     //Ici qu'on fait l'interface entre input et action (bind jump to spacebar)
-    class UserInterface* getHUD();
+    UserInterface* getHUD();
 protected:
 
 private:
-    std::string m_name = "";
     class Actor* m_actor = nullptr;
     class UserInterface* m_hud = nullptr;
     class UISystem& m_ui_system;

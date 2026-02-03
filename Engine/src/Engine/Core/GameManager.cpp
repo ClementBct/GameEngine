@@ -8,6 +8,7 @@
 #include "Engine/System/Render/RenderSystem.h"
 #include "Engine/System/Input/InputSystem.h"
 #include "Engine/System/UI/UISystem.h"
+#include "Engine/System/Scene/SceneSystem.h"
 
 #include "Engine/UI/UserInterface.h"
 
@@ -40,6 +41,7 @@ GameManager::GameManager(): m_is_running(true) {
     m_ui_system = std::make_unique<UISystem>();
 
     m_ressource_loader = std::make_unique<RessourceLoader>(*m_renderer);
+    m_scene_system = std::make_unique<SceneSystem>();
 }
 
 GameManager::~GameManager() {
@@ -102,7 +104,7 @@ void GameManager::fixedUpdateGame(float i_fixed_dt_s) {
 }
 
 void GameManager::generateOutput() {
-    m_render_system->renderFrame(m_current_scene, m_ui_system->getCurrentUserInterface());
+    m_render_system->renderFrame(m_current_scene, m_ui_system->getActiveUserInterface());
 }
 
 void GameManager::setCurrentScene(Scene& i_scene) {
@@ -121,12 +123,12 @@ PlayerController* GameManager::createPlayerController(const std::string& i_pc_na
     //auto pc = std::make_shared<PlayerController>(*m_input_system, i_pc_name);
     //m_pc = pc.get();
     //fuite mémmoire ici car par supprimer !!!!!!
-    m_pc = new PlayerController(*m_input_system,*m_ui_system ,i_pc_name);
+    m_pc = new PlayerController(*m_input_system,*m_ui_system);
     return m_pc;
 }
 
-PlayerController* GameManager::getPlayerController() const{
-    return m_pc;
+PlayerController& GameManager::getPlayerController() const{
+    return *m_pc;
 }
 
 const Camera& GameManager::getCamera()const {
@@ -135,6 +137,10 @@ const Camera& GameManager::getCamera()const {
 
 RessourceLoader& GameManager::getRessourceLoader()const {
     return *m_ressource_loader;
+}
+
+UISystem& GameManager::getUISystem()const {
+    return *m_ui_system;
 }
 
 void GameManager::loadScene(Scene& i_scene) {
