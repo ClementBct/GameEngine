@@ -2,6 +2,9 @@
 
 #include <vector>
 #include <string>
+#include <memory>
+
+class Component;
 
 class Entity
 {
@@ -24,7 +27,8 @@ public:
 	 * @param i_component the component to add
 	 * @return the component id
 	 */
-	size_t addComponent(class Component* i_component);
+	size_t addComponent(Component* i_component);
+	void removeComponent(Component* i_component);
 	/**
 	 * @brief Get a component by is ID
 	 * @tparam T
@@ -37,22 +41,31 @@ public:
 	template<typename T>
 	T* getComponent();
 
+	template<typename T, typename... Args>
+	T* createComponent(Args&&... i_args) {
+		static_assert(std::is_base_of_v<Component, T>,
+			"T must derive from Component");
+		auto comp = new T(std::forward<Args>(i_args)...);
+		m_component_list.push_back(comp);
+		return comp;
+	}
+	void destroyComponent(Component* i_comp);
+
 	// Récupérer tous les components d'un type
 	template<typename T>
 	std::vector<T*> getComponents();
-
-	void removeComponent(class Component* i_component);
 	/**
 	 * @brief Get all the component of the game object.
 	 * @return Vector with all component
 	 */
-	std::vector<class Component*> getComponentList();
+	std::vector<Component*>& getComponentList();
 	template<typename T>
 	bool hasComponent();
+	const std::string getName();
 protected:
 private:
 	size_t m_next_component_id = 0;
-	std::vector<class Component*> m_component_list;
+	std::vector<Component*> m_component_list;
 };
 
 template<typename T>
@@ -81,14 +94,14 @@ T* Entity::getComponent()
 template<typename T>
 std::vector<T*> Entity::getComponents()
 {
-	std::vector<T*> components;
-	for (auto component : m_component_list) {
-		T* casted_component = dynamic_cast<T*>(component);
-		if (casted_component) {
-			components.push_back(casted_component);
+	std::vector<T*> components_list;
+	for (auto comp : m_component_list) {
+		T* casted_comp = dynamic_cast<T*>(comp);
+		if (casted_comp) {
+			components_list.push_back(casted_comp);
 		}
 	}
-	return components;
+	return components_list;
 }
 
 template<typename T>

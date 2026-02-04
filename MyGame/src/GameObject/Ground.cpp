@@ -11,10 +11,11 @@
 Ground::Ground(class Scene& i_scene) : GameObject(i_scene)
 {
 	setTag("Ground");
-	m_main_sprite = new SpriteComponent(*this);
+	m_main_sprite = createComponent<SpriteComponent>(*this);
 	m_main_sprite->setTexture(getScene().getGameManager().getRessourceLoader().createTexture("ground.png"));
 	m_rb = new RigidBody2DComponent(*this, EBodyType::StaticBody);
-	m_box_collider = new BoxCollider2DComponent(*this);
+
+	m_box_collider = createComponent<BoxCollider2DComponent>(*this);
 	m_box_collider->setBoxColliderSize(500.0f, 20.0f);
 	m_box_collider->m_is_collider_visible = true;
 }

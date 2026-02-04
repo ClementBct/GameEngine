@@ -12,9 +12,6 @@ public :
 	const class Scene& getScene()const;
 	int getZOrder();
 	/*KeyBoard Event*/
-	bool m_is_keyboardEventEnable = true;
-	virtual void onKeyPressed(uint32_t i_key);
-	virtual	void onKeyReleased(uint32_t i_key);
 	void setTag(const std::string& i_tag);
 	std::string getTag();
 	virtual void onContactBeginEvent(class Collider2DComponent* i_collider, GameObject* i_game_object);

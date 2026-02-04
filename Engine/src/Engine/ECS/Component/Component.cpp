@@ -2,11 +2,9 @@
 #include "Engine/ECS/GameObject.h"
 
 Component::Component(GameObject& i_owner) : m_owner(i_owner){
-	m_id = m_owner.addComponent(this);
 }
 
 Component::~Component() {
-	m_owner.removeComponent(this);
 }
 
 GameObject* Component::getOwner() {

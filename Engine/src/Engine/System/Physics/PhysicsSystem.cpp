@@ -54,10 +54,10 @@ PhysicsSystem::~PhysicsSystem()
 }
 
 
-void PhysicsSystem::onUpdate(double i_dt_s) {
+void PhysicsSystem::onFixedUpdate(double i_fixed_dt_s) {
 	b2World_Step(
 		m_world_id,
-		i_dt_s,
+		i_fixed_dt_s,
 		m_sub_tick_count
 	);
 	b2ContactEvents contact_events = b2World_GetContactEvents(m_world_id);
@@ -122,11 +122,11 @@ void PhysicsSystem::createPhysicsBody(GameObject* i_game_object)
 	auto colliders_list = i_game_object->getComponents<Collider2DComponent>();
 
 	if (!rigid_body) {
-		std::println("gameObject has no rigid body component");
+		std::println("{} has no rigid body component", i_game_object->getName());
 		return;
 	}
 	if (colliders_list.empty()) {
-		std::println("gameObject has no collider");
+		std::println("{} has no collider", i_game_object->getName());
 		return;
 	}
 	b2BodyDef body_def = b2DefaultBodyDef();

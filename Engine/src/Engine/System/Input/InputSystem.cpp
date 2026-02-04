@@ -3,7 +3,10 @@
 
 #include "Engine/ECS/GameObject.h"
 #include "Engine/Core/Scene.h"
+#include "Engine/Core/PlayerController.h"
 #include "SDL3/SDL.h"
+
+#include <algorithm>
 
 //tempo
 #include <print>
@@ -28,12 +31,20 @@ void InputSystem::onUpdate(double i_dt_s) {
             break;
         case SDL_EVENT_KEY_DOWN: // touche appuyée
             m_key_states[event.key.key] = true;
+            for (auto pc : m_registered_pc_list) {
+                pc->onKeyPressed(sdlKeyToKeyBoardKey(event.key.key));
+            }
             break;
         case SDL_EVENT_KEY_UP: // touche relâchée
             m_key_states[event.key.key] = false;
+            for (auto pc : m_registered_pc_list) {
+                pc->onKeyReleased(sdlKeyToKeyBoardKey(event.key.key));
+            }
+            break;
         case SDL_EVENT_MOUSE_MOTION:
             m_mouse_screen_position.x = event.motion.x;
             m_mouse_screen_position.y = event.motion.y;
+            break;
         default:
             break;
         }
@@ -45,6 +56,17 @@ void InputSystem::registerQuitCallback(std::function<void()> i_callback)
     m_quit_callback = i_callback;
 }
 
+void InputSystem::registerPlayerController(PlayerController& i_pc) {
+    m_registered_pc_list.push_back(&i_pc);
+}
+void InputSystem::unRegisterPlayerController(PlayerController& i_pc) {
+    auto it = std::find(m_registered_pc_list.begin(), m_registered_pc_list.end(), &i_pc);
+    if (it != m_registered_pc_list.end()) {
+        m_registered_pc_list.erase(it);
+    }
+    //need
+}
+
 bool InputSystem::isKeyPressed(const SDL_Keycode i_key) const {
     auto it = m_key_states.find(i_key);
     return it != m_key_states.end() && it->second;
@@ -54,7 +76,7 @@ Vector2D InputSystem::getMouseScreenPosition() {
     return m_mouse_screen_position;
 }
 
-EKeyboardKey InputSystem::sdlKeyToKeyBoardKey(const SDL_Keycode i_key) {
+const EKeyboardKey InputSystem::sdlKeyToKeyBoardKey(const SDL_Keycode i_key) {
     switch (i_key)
     {
         // Lettres

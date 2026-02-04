@@ -23,7 +23,7 @@ public:
 	PhysicsSystem();
 	~PhysicsSystem();
 	void createPhysicsBody(class GameObject* i_game_object);
-	void onUpdate(double i_dt_s) override;
+	void onFixedUpdate(double i_fixed_dt_s) override;
 protected:
 private:
 	int m_sub_tick_count = 4;

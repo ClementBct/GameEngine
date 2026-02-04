@@ -15,6 +15,7 @@ class RigidBody2DComponent : public Component
 public:
 	RigidBody2DComponent(class GameObject& i_owner, EBodyType i_body_type);
 	void onUpdate(double i_dt_s)override;
+	void onFixedUpdate(double i_fixed_dt_s);
 	EBodyType getBodyType();
 	void setBodyId(b2BodyId i_body_id);
 	b2BodyId getBodyId();

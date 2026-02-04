@@ -8,3 +8,6 @@ System::~System() {
 void System::onUpdate(double i_dt_s) {
 
 }
+void System::onFixedUpdate(double i_fixed_dt_s) {
+
+}

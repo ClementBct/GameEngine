@@ -16,15 +16,6 @@ const Scene& GameObject::getScene() const{
 	return m_scene;
 }
 
-
-void GameObject::onKeyPressed(uint32_t i_key)
-{
-}
-
-void GameObject::onKeyReleased(uint32_t i_key)
-{
-}
-
 void GameObject::setTag(const std::string& i_tag) {
 	m_tag = i_tag;
 }

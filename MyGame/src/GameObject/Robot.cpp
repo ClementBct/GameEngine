@@ -6,10 +6,8 @@
 #include "Engine/ECS/Component/BoxCollider2DComponent.h"
 #include "Engine/ECS/Component/Sound2DComponent.h"
 
-//Player Controller
-#include "Engine/ECS/PlayerController.h"
 
-
+#include "Engine/Core/PlayerController.h"
 #include "Engine/Core/GameManager.h"
 #include "Engine/Core/RessourceLoader.h"
 #include "Engine/Core/Renderer/Texture.h"
@@ -29,14 +27,14 @@
 Robot::Robot(Scene& i_scene) : GameObject(i_scene)
 {
     setTag("Robot");
-	m_robot_sprite = new SpriteComponent(*this);
+	m_robot_sprite = createComponent<SpriteComponent>(*this);
     Texture* main_texture = getScene().getGameManager().getRessourceLoader().createTexture("robot.png");
     m_robot_sprite->setTexture(main_texture);
 	transform->scale = { 0.2f,0.2f };
-	m_rb = new RigidBody2DComponent(*this, EBodyType::DynamicBody);
+	m_rb = createComponent<RigidBody2DComponent>(*this, EBodyType::DynamicBody);
     m_rb->setGravityScale(0.0f);
     m_rb->m_is_fixed_rotation = true;
-	m_box_collider = new BoxCollider2DComponent(*this);
+	m_box_collider = createComponent<BoxCollider2DComponent>(*this);
 	m_box_collider->setBoxColliderSize(50.0f, 100.0f);
     m_box_collider->m_is_collision_enable = true;
     m_box_collider->m_is_collision_event_enable = true;
@@ -45,7 +43,7 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
     m_box_collider->m_restitution = 0.0f;
 
 
-    m_attraction_box = new BoxCollider2DComponent(*this);
+    m_attraction_box = createComponent<BoxCollider2DComponent>(*this);
     m_attraction_box->setBoxColliderSize(200.0f, 200.0f);
     m_attraction_box->setLocalPosition({ 100.0f,100.0f });
     m_attraction_box->m_is_collision_enable = false;
@@ -53,7 +51,8 @@ Robot::Robot(Scene& i_scene) : GameObject(i_scene)
     m_attraction_box->m_overlap_event = true;
 
     //fonction de création de composant interdiction de crée un new
-    m_audio = new Sound2DComponent(*this, "Ressources/pop.wav");
+    m_audio = createComponent<Sound2DComponent>(*this, "Ressources/pop.wav");
+
 }
 
 void Robot::onStart() {
@@ -74,23 +73,6 @@ void Robot::onFixedUpdate(double i_fixed_dt_s) {
 
 void Robot::setRobotSpeed(float i_speed) {
 	m_robot_speed = i_speed;
-}
-
-void Robot::onKeyPressed(uint32_t i_key)
-{
-    //m_audio->play();
-    Vector2D impulse;
-    impulse.x = 0;
-    impulse.y = 10.0;
-    /*
-    if (i_key == SDLK_SPACE) {
-        m_rb->applyImpulse(impulse);
-    }
-    */
-}
-
-void Robot::onKeyReleased(uint32_t i_key)
-{
 }
 
 void Robot::updateMovement(double i_dt_s)

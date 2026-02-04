@@ -18,7 +18,7 @@
 #include "Engine/Core/Window.h"
 #include "Engine/Core/Renderer/Renderer.h"
 #include "Engine/Core/Scene.h"
-#include "Engine/ECS/PlayerController.h"
+#include "Engine/Core/PlayerController.h"
 
 #include <SDL3/SDL_timer.h> //Get_Ticks()
 
@@ -100,7 +100,7 @@ void GameManager::updateGame(float i_dt_s) {
 
 void GameManager::fixedUpdateGame(float i_fixed_dt_s) {
   //Update du moteur physique
-  m_physics_system->onUpdate(i_fixed_dt_s);
+  m_physics_system->onFixedUpdate(i_fixed_dt_s);
 }
 
 void GameManager::generateOutput() {

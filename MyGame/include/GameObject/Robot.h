@@ -14,8 +14,6 @@ public:
 	void onFixedUpdate(double i_fixed_dt_s)override;
 	float getRobotSpeed();
 	void setRobotSpeed(float i_speed);
-	void onKeyPressed(uint32_t i_key) override;
-	void onKeyReleased(uint32_t i_key) override;
 
 	void onContactBeginEvent(class Collider2DComponent* i_collider, GameObject* i_game_object)override;
 	void onContactEndEvent(class Collider2DComponent* i_collider, GameObject* i_game_object)override;

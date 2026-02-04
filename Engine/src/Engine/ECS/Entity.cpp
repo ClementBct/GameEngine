@@ -2,6 +2,8 @@
 #include "Engine/ECS/Component/Component.h"
 #include "Engine/Core/GameManager.h"
 
+#include "Engine/Utils/Demangler.h"
+
 #include <print>
 
 
@@ -9,10 +11,10 @@ Entity::Entity(){
 }
 
 Entity::~Entity() {
-	// Because ~Components calls RemoveComponent, need a different style loop
-	while (!m_component_list.empty()) {
-		delete m_component_list.back();
+	for (auto comp : m_component_list) {
+		delete comp;
 	}
+	m_component_list.clear();
 }
 
 void Entity::onUpdate(double i_dt_s) {
@@ -46,6 +48,19 @@ void Entity::removeComponent(Component* i_component)
 	}
 }
 
-std::vector<Component*> Entity::getComponentList() {
+const std::string Entity::getName() {
+	std::string name = typeid(*this).name();
+	return demangle(name);
+}
+
+void Entity::destroyComponent(Component* i_comp) {
+	auto it = std::find(m_component_list.begin(), m_component_list.end(), i_comp);
+	if (it != m_component_list.end()) {
+		delete* it;
+		m_component_list.erase(it);
+	}
+}
+
+std::vector<Component*>& Entity::getComponentList() {
 	return m_component_list;
 }

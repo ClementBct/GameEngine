@@ -5,3 +5,8 @@ const std::string demangle(std::string& i_input) {
     }
     return i_input;
 }
+/*
+const std::string getName(void*) {
+    return "";
+}
+*/
