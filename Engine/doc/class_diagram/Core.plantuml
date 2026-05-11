@@ -1,0 +1,17 @@
+@startuml
+package Core {
+    class Window
+    class Scene
+    class RessourceLoader
+    class PlayerController
+    class GameModeBase
+    class GameMode
+    class GameManager
+    class Camera 
+    package Renderer {
+        class Renderer
+        class Texture
+    }
+}
+
+@enduml

@@ -5,7 +5,7 @@ class SceneSystem : public System
 {
 public:
 	SceneSystem();
-	~SceneSystem();
+	virtual ~SceneSystem();
 private:
 };
 

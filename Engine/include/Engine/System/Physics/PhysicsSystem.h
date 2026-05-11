@@ -11,18 +11,21 @@
 
 Vector2D convertPhysicsPositionToWorldPosition(Vector2D i_physics_position);
 Vector2D convertWorldPositionToPhysicsPosition(Vector2D i_world_position);
+
 float convertWorldUnitToPhysicsUnit(float i_world_unit);
 float convertPhysicsUnitToWorldUnit(float i_physics_unit);
 
 float convertWorldRotationToPhysicsRotation(float i_deg); 
 float convertPhysicsRotationToWorldRotation(float i_rad);
 
+class GameObject;
+
 class PhysicsSystem : public System
 {
 public:
 	PhysicsSystem();
 	~PhysicsSystem();
-	void createPhysicsBody(class GameObject* i_game_object);
+	void createPhysicsBody(const GameObject& i_game_object);
 	void onFixedUpdate(double i_fixed_dt_s) override;
 protected:
 private:

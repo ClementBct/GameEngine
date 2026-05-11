@@ -1,0 +1,33 @@
+@startuml
+package ECS {
+    package Component {
+        class BoxCollider2DComponent
+        class CircleCollider2DComponent
+        class Collider2DComponent
+        class Component
+        class RigidBody2DComponent
+        class Sound2DComponent    
+        class Sound3DComponent
+        class SoundComponent
+        class SpriteComponent
+        class TransformComponent
+        class UIRendererComponent
+    }
+    class Actor
+    class Entity
+    class GameObject
+}
+
+Actor -up-> Entity
+GameObject -up-> Entity
+BoxCollider2DComponent -up-> Collider2DComponent
+CircleCollider2DComponent -up-> Collider2DComponent
+Sound2DComponent -up-> SoundComponent
+Sound3DComponent -up-> SoundComponent
+TransformComponent -up-> Component
+SpriteComponent -up-> Component
+UIRendererComponent -up-> Component
+
+
+
+@enduml

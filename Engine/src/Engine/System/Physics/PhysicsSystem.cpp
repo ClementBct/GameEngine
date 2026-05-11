@@ -116,17 +116,17 @@ void PhysicsSystem::onFixedUpdate(double i_fixed_dt_s) {
 	}
 }
 
-void PhysicsSystem::createPhysicsBody(GameObject* i_game_object)
+void PhysicsSystem::createPhysicsBody(const GameObject& i_game_object)
 {
-	auto rigid_body = i_game_object->getComponent<RigidBody2DComponent>();
-	auto colliders_list = i_game_object->getComponents<Collider2DComponent>();
+	auto rigid_body = i_game_object.getComponent<RigidBody2DComponent>();
+	auto colliders_list = i_game_object.getComponents<Collider2DComponent>();
 
 	if (!rigid_body) {
-		std::println("{} has no rigid body component", i_game_object->getName());
+		std::println("{} has no rigid body component", i_game_object.getName());
 		return;
 	}
 	if (colliders_list.empty()) {
-		std::println("{} has no collider", i_game_object->getName());
+		std::println("{} has no collider", i_game_object.getName());
 		return;
 	}
 	b2BodyDef body_def = b2DefaultBodyDef();
@@ -140,16 +140,20 @@ void PhysicsSystem::createPhysicsBody(GameObject* i_game_object)
 		body_def.type = b2_kinematicBody; break;
 	default :
 		std::println("Unknown body type");
+		return;
 	}
-	body_def.motionLocks.angularZ = rigid_body->m_is_fixed_rotation;
+	body_def.fixedRotation = rigid_body->m_is_fixed_rotation;
+	//TOFIX
+	/*
 	body_def.motionLocks.linearX = rigid_body->m_fixed_x_translation;
 	body_def.motionLocks.linearY = rigid_body->m_fixed_y_translation;
+	*/
 	Vector2D physics_position = convertWorldPositionToPhysicsPosition(rigid_body->getWorldPosition());
 	body_def.gravityScale = rigid_body->getGravityScale();
 	body_def.position = { physics_position.x , physics_position.y };
 	body_def.rotation = b2MakeRot(convertWorldRotationToPhysicsRotation(rigid_body->getWorldRotation()));
 	b2BodyId body_id = b2CreateBody(m_world_id, &body_def);
-	// Ajouter les colliders (si présents)
+	// Ajouter les colliders (si prï¿½sents)
 	for (auto collider : colliders_list) {
 		b2ShapeDef shape_def = collider->createShapeDef();
 		b2ShapeId shape_id = b2CreatePolygonShape(body_id, &shape_def, collider->getCollider());

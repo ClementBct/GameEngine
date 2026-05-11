@@ -3,6 +3,9 @@
 #include <string>
 #include <unordered_map>
 
+/**
+ * Forwoard declaration
+ */
 struct SDL_Renderer;
 struct SDL_Texture;
 struct SDL_FRect;

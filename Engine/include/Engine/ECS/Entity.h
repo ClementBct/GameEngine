@@ -37,9 +37,18 @@ public:
 	 */
 	template<typename T>
 	T* getComponentById(size_t i_id);
-	// Récupérer le premier component d'un type
+	// Rï¿½cupï¿½rer le premier component d'un type
 	template<typename T>
-	T* getComponent();
+	T* getComponent() const
+	{
+		for (auto component : m_component_list) {
+			T* casted_component = dynamic_cast<T*>(component);
+			if (casted_component) {
+				return casted_component;
+			}
+		}
+		return nullptr;
+	}
 
 	template<typename T, typename... Args>
 	T* createComponent(Args&&... i_args) {
@@ -51,9 +60,19 @@ public:
 	}
 	void destroyComponent(Component* i_comp);
 
-	// Récupérer tous les components d'un type
+	// Rï¿½cupï¿½rer tous les components d'un type
 	template<typename T>
-	std::vector<T*> getComponents();
+	std::vector<T*> getComponents() const
+	{
+		std::vector<T*> components_list;
+		for (auto comp : m_component_list) {
+			T* casted_comp = dynamic_cast<T*>(comp);
+			if (casted_comp) {
+				components_list.push_back(casted_comp);
+			}
+		}
+		return components_list;
+	}
 	/**
 	 * @brief Get all the component of the game object.
 	 * @return Vector with all component
@@ -61,7 +80,7 @@ public:
 	std::vector<Component*>& getComponentList();
 	template<typename T>
 	bool hasComponent();
-	const std::string getName();
+	const std::string getName() const;
 protected:
 private:
 	size_t m_next_component_id = 0;
@@ -77,31 +96,6 @@ T* Entity::getComponentById(size_t i_id)
 		}
 	}
 	return nullptr;
-}
-
-template<typename T>
-T* Entity::getComponent()
-{
-	for (auto component : m_component_list) {
-		T* casted_component = dynamic_cast<T*>(component);
-		if (casted_component) {
-			return casted_component;
-		}
-	}
-	return nullptr;
-}
-
-template<typename T>
-std::vector<T*> Entity::getComponents()
-{
-	std::vector<T*> components_list;
-	for (auto comp : m_component_list) {
-		T* casted_comp = dynamic_cast<T*>(comp);
-		if (casted_comp) {
-			components_list.push_back(casted_comp);
-		}
-	}
-	return components_list;
 }
 
 template<typename T>

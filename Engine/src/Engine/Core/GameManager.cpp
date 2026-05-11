@@ -52,11 +52,11 @@ void GameManager::run()
     constexpr float FIXED_TIMESTEP = 1.0f / 240.0f; // 240 Hz physique
     float accumulator = 0.0f;
 
-    Uint32 lastTime = SDL_GetTicks();
+    Uint64 lastTime = SDL_GetTicks();
 
     while (m_is_running)
     {
-        Uint32 currentTime = SDL_GetTicks();
+        Uint64 currentTime = SDL_GetTicks();
         float deltaTime = (currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
 
@@ -146,8 +146,8 @@ UISystem& GameManager::getUISystem()const {
 void GameManager::loadScene(Scene& i_scene) {
     //On viens crée les physics body pour chaque objet s'il possède un Rb ainsi que l'audio
     for (auto game_object : i_scene.getGameObjectList()) {
-        m_physics_system->createPhysicsBody(game_object);
-        m_audio_system->loadSound(game_object);
+        m_physics_system->createPhysicsBody(*game_object);
+        m_audio_system->loadSound(*game_object);
 
     }
     for (auto game_object : i_scene.getGameObjectList()) {

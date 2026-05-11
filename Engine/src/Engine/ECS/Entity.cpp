@@ -48,7 +48,7 @@ void Entity::removeComponent(Component* i_component)
 	}
 }
 
-const std::string Entity::getName() {
+const std::string Entity::getName() const{
 	std::string name = typeid(*this).name();
 	return demangle(name);
 }

@@ -18,7 +18,7 @@ AudioSystem::AudioSystem()
     }
     m_context = alcCreateContext(m_device, nullptr);
     alcMakeContextCurrent(m_context);
-    //On alloue un nombre de source définis en amont
+    //On alloue un nombre de source dï¿½finis en amont
     m_sources_list.resize(m_max_sources);
     alGenSources(m_max_sources, m_sources_list.data());
     ALenum err = alGetError();
@@ -29,9 +29,9 @@ AudioSystem::AudioSystem()
 
 AudioSystem::~AudioSystem()
 {
-    // Libérer les sources
+    // Libï¿½rer les sources
     alDeleteSources(m_sources_list.size(), m_sources_list.data());
-    // Libérer buffers
+    // Libï¿½rer buffers
     for (auto& buffer : m_buffers_list) {
         alDeleteBuffers(1, &buffer.second);
     }
@@ -49,10 +49,10 @@ void AudioSystem::setListenerPosition(Vector3D& i_listener_position)
 SoundHandler_t AudioSystem::play2DSound(Sound2DComponent& i_sound_2d)
 {
     SoundHandler_t audio_handler;
-    //Récupérer une source disponible
+    //Rï¿½cupï¿½rer une source disponible
     ALuint source = getFreeSource();
 
-    //On récupère le buffer data lier au fichier
+    //On rï¿½cupï¿½re le buffer data lier au fichier
     auto it = m_buffers_list.find(i_sound_2d.getPath());
     if (it != m_buffers_list.end()) {
         //Link buffer data to source
@@ -108,7 +108,7 @@ SoundHandler_t AudioSystem::play3DSound(Sound3DComponent& i_sound_3d)
     alSourcef(source, AL_GAIN, 0.7f);   // volume
     alSourcef(source, AL_PITCH, 1.0f);  // vitesse
     alSourcePlay(source);
-    // Stocker la source pour pouvoir la contrôler plus tard
+    // Stocker la source pour pouvoir la contrï¿½ler plus tard
     if (i_sound_id >= m_sources_list.size()) {
         m_sources_list.resize(i_sound_id + 1, 0);
     }
@@ -133,12 +133,12 @@ void AudioSystem::stopSound(SoundHandler_t& i_sound_handler)
     */
 }
 
-void AudioSystem::loadSound(GameObject* i_game_object)
+void AudioSystem::loadSound(const GameObject& i_game_object)
 {
-    for (auto audio_component : i_game_object->getComponents<SoundComponent>() ){
+    for (auto audio_component : i_game_object.getComponents<SoundComponent>() ){
         auto iter = m_buffers_list.find(audio_component->getPath());
         if (iter != m_buffers_list.end()) {
-            //Buffer trouvé dans la map donc pas besoin de la charger
+            //Buffer trouvï¿½ dans la map donc pas besoin de la charger
             continue;
         }
         ALuint buffer = -1;
@@ -160,7 +160,7 @@ ALuint AudioSystem::getFreeSource()
         }
     }
 
-    // Toutes occupées les sources sont occuper on vole la plus ancienne
+    // Toutes occupï¿½es les sources sont occuper on vole la plus ancienne
     alSourceStop(m_sources_list[0]);
     return m_sources_list[0];
 }

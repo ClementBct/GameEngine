@@ -9,7 +9,7 @@ class RenderSystem : public System
 {
 public:
 	RenderSystem(class Renderer& i_renderer, class Camera& i_camera);
-	~RenderSystem();
+	virtual ~RenderSystem();
 	void renderFrame(Scene* scene,std::vector<UserInterface*>& i_ui_list);
 private :
 	void renderUserInterface(UserInterface* i_ui);
